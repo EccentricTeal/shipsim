@@ -30,10 +30,10 @@ class BodyParam
 	double getGm(void);
 
 	private:
-	double _length; //L [m]
-	double _beam; //B [m]
-	double _draft; //d [m]
-	double _gm; //GM [m]
+	double length_; //L [m]
+	double beam_; //B [m]
+	double draft_; //d [m]
+	double gm_; //GM [m]
 	
 };
 
@@ -71,11 +71,11 @@ class MassParam
 	double getCogPos_z(void);
 	
 	private:
-	double _mass; //m [kg]
-	Eigen::Vector3d _addmass; //(m_x, m_y, m_z) [kg]
-	Eigen::Matrix3d _inertia; //(Ixx, Ixy, Ixz / Iyx, Iyy, Iyz, / Izx, Izy, Izz) [kg*m^2]
-	Eigen::Matrix3d _addinertia; //(Jxx, Jxy, Jxz / Jyx, Jyy, Jyz, / Jzx, Jzy, Jzz) [kg*m^2]
-	Eigen::Vector3d _cog_position; //x_G, y_G, z_G (Midship origin, Coordinate: On Ship)
+	double mass_; //m [kg]
+	Eigen::Vector3d addmass_; //(m_x, m_y, m_z) [kg]
+	Eigen::Matrix3d inertia_; //(Ixx, Ixy, Ixz / Iyx, Iyy, Iyz, / Izx, Izy, Izz) [kg*m^2]
+	Eigen::Matrix3d addinertia_; //(Jxx, Jxy, Jxz / Jyx, Jyy, Jyz, / Jzx, Jzy, Jzz) [kg*m^2]
+	Eigen::Vector3d cog_position_; //x_G, y_G, z_G (Midship origin, Coordinate: On Ship)
 	
 };
 
@@ -96,10 +96,10 @@ class PropellerParam
 	double getForcePoint_z(void);	
 	
 	private:
-	double _diameter; //D_P
-	double _pitch; //P
-	double _K_T; //Coef. of Propeller Specification
-	Eigen::Vector3d _force_point;	//Point of propeller force(Midship origin, Coordinate: On ship)
+	double diameter_; //D_P
+	double pitch_; //P
+	double K_T_; //Coef. of Propeller Specification
+	Eigen::Vector3d force_point_;	//Point of propeller force(Midship origin, Coordinate: On ship)
 		
 };
 
@@ -121,11 +121,11 @@ class RudderParam
 	double getForcePoint_z(void);
 	
 	private:
-	double _area; //A_R : Area of the rudder
-	double _f_alpha; //Rudder Pressure Gradient Coef.
-	double _height; //Hieght of Rudder Boad
-	double _width; //Width of Rudder Boad
-	Eigen::Vector3d _force_point; //Point of rudder force(Midship origin, Coordinate: On ship)
+	double area_; //A_R : Area of the rudder
+	double f_alpha_; //Rudder Pressure Gradient Coef.
+	double height_; //Hieght of Rudder Boad
+	double width_; //Width of Rudder Boad
+	Eigen::Vector3d force_point_; //Point of rudder force(Midship origin, Coordinate: On ship)
 	
 };
 
@@ -152,9 +152,9 @@ class MmgParam
 
 	
 	private:
-	std::unordered_map<std::string, double> _hull;
-	std::unordered_map<std::string, double> _propeller;
-	std::unordered_map<std::string, double> _rudder;
+	std::unordered_map<std::string, double> hull_;
+	std::unordered_map<std::string, double> propeller_;
+	std::unordered_map<std::string, double> rudder_;
 	
 };
 

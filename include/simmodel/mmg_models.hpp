@@ -48,13 +48,13 @@ class ShallowWaterModel
 	PhysicalConst phyconst_;
 	
 	//Ship Control Variables
-	std::vector<PropellerStatus> _propeller;
-	std::vector<RudderStatus> _rudder;
+	std::vector<PropellerStatus> propeller_;
+	std::vector<RudderStatus> rudder_;
 
 	//Ship Dynamics Variables
-	ShipPosition3D _pos;
-	ShipVelocity3D _vel;
-	ShipAcceralator3D _acc;
+	ShipPosition3D pos_;
+	ShipVelocity3D vel_;
+	ShipAcceralator3D acc_;
 	
 	
 	//Ship Parameters
@@ -68,7 +68,7 @@ class ShallowWaterModel
 	FlagParam X_;
 	FlagParam Y_;
 	FlagParam N_;	
-	FlagParam _K;
+	FlagParam K_;
 
 	//Temporary Variables
 	//-- first: isUpdated flag,  second: value--
@@ -83,23 +83,23 @@ class ShallowWaterModel
 	FlagParam tempN_R_;
 	
 	//Local Calculator
-	void _calcU(void); //Calculate U temporarily
-	void _calcF_N(void); //Calculate F_N temporarily
+	void calcU_(void); //Calculate U temporarily
+	void calcF_N_(void); //Calculate F_N temporarily
 	
-	void _calcX_H(void); //Calculate Surge force correspondings to Hull
-	void _calcY_H(void); //Calculate Sway force correspondings to Hull
-	void _calcN_H(void); //Calculate Yaw moment correspondings to Hull
-	void _calcX_P(void); //Calculate Surge force correspondings to Propeller
-	void _calcX_R(void); //Calculate Surge force correspondings to Rudder
-	void _calcY_R(void); //Calculate Sway force correspondings to Rudder
-	void _calcN_R(void); //Calculate Yaw moment correspondings to Rudder
+	void calcX_H_(void); //Calculate Surge force correspondings to Hull
+	void calcY_H_(void); //Calculate Sway force correspondings to Hull
+	void calcN_H_(void); //Calculate Yaw moment correspondings to Hull
+	void calcX_P_(void); //Calculate Surge force correspondings to Propeller
+	void calcX_R_(void); //Calculate Surge force correspondings to Rudder
+	void calcY_R_(void); //Calculate Sway force correspondings to Rudder
+	void calcN_R_(void); //Calculate Yaw moment correspondings to Rudder
 
-	void _updateX(void); //Update Surge Force
-	void _updateY(void); //Update Sway Force
-	void _updateN(void); //Update Yaw Moment
-	void _updateK(void); //Update Roll Moment
+	void updateX_(void); //Update Surge Force
+	void updateY_(void); //Update Sway Force
+	void updateN_(void); //Update Yaw Moment
+	void updateK_(void); //Update Roll Moment
 
-	void _resetUpdateFalgs(void);
+	void resetUpdateFlags_(void);
 	
 	
 };
