@@ -6,9 +6,10 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "/media/suisei/data/projects/shipcon2/ros/src/shipsim2/include/**",
+                "/media/suisei/data/projects/shipcon2/ros/src/shipsim/include/**",
                 "include/**",
-                "/usr/include/**"
+                "/usr/include/**",
+                "/opt/ros/foxy/include/**"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",

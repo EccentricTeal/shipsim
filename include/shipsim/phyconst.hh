@@ -6,10 +6,10 @@ Author: Suisei WADA (D1)
         @Faculty of Naval Architecture and Ocean Engineering, Osaka University
 Date:   10th May, 2020
 -----------------------------------------------------------------------------*/
-#ifndef PHYSICAL_CONST_HPP
-#define PHYSICAL_CONST_HPP
+#ifndef SHIPSIM_PHYCONST_HH
+#define SHIPSIM_PHYCONST_HH
 
-class PhysicalConst
+class ShipsimPhyConst
 {
 	
 public:

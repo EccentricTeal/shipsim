@@ -11,7 +11,7 @@ Date:   10th May, 2020
 #define MMG_MODELS_HPP
 
 //Include Library Headers
-#include "physical_const.hpp"
+#include "shipsim/phyconst.hh"
 #include "mmg_parameter.hpp"
 #include "mmg_variable.hpp"
 #include <Eigen/Core>
@@ -45,7 +45,7 @@ class ShallowWaterModel
 
 	private:
 	//Physical Constants
-	PhysicalConst phyconst_;
+	ShipsimPhyConst phyconst_;
 	
 	//Ship Control Variables
 	std::vector<PropellerStatus> propeller_;
