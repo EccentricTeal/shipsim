@@ -6,8 +6,8 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "/media/suisei/data/projects/shipcon2/ros/src/shipsim/include/**",
-                "include/**",
+                "../shipsim/include/**",
+                "../shipsim_model/include/**",
                 "/usr/include/**",
                 "/opt/ros/foxy/include/**"
             ],
