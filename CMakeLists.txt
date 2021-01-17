@@ -16,10 +16,24 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED)
+find_package(
+  ament_cmake REQUIRED
+  rosidl_default_generators REQUIRED
+  )
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+# About ROS msg generator
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/ShallowWaterModel/Hull.msg"
+  "msg/ShallowWaterModel/Propeller.msg"
+  "msg/ShallowWaterModel/Rudder.msg"
+  "msg/ShallowWaterModel/Inertia.msg"
+  "msg/ShallowWaterModel/Size.msg"
+  "msg/ShallowWaterModel/ShipState.msg"
+  "msg/ShallowWaterModel/StaticParam.msg"
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
