@@ -28,7 +28,7 @@ shipsim_model::common::ShipStateParam shipsim::core::solver::RungeKuttaSolver::s
     //Check whether two functions have already been registered
     if( updateGrad_ == nullptr || setState_ == nullptr )
     {
-        printf("[ERROR] Not registered model function to Runge-Kutta Solver!");
+        printf("[ERROR] Not registered model to Runge-Kutta Solver!");
         std::terminate();
     }
 
