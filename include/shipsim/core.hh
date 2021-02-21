@@ -12,8 +12,8 @@ Date:   7th Feb, 2021
 //ROS
 #include <rclcpp/rclcpp.hpp>
 //ROS Message
-#include "shipsim_msg/msg/propeller_state.hpp"
-#include "shipsim_msg/msg/rudder_state.hpp"
+#include "shipsim_msgs/msg/propeller_state.hpp"
+#include "shipsim_msgs/msg/rudder_state.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 //TF
@@ -49,10 +49,10 @@ namespace shipsim
     /* Private variables */
     private:
       //ROS
-      tf2_ros::TransformBroadcaster dynamictf_shippos_br_;
+      std::unique_ptr<tf2_ros::TransformBroadcaster> unqptr_dynamictf_shippos_br_;
       rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr shptr_shipvel_pub_;
-      rclcpp::Subscription<shipsim_msg::msg::PropellerState>::SharedPtr shptr_prop_sub_;
-      rclcpp::Subscription<shipsim_msg::msg::RudderState>::SharedPtr shptr_rudder_sub_;
+      rclcpp::Subscription<shipsim_msgs::msg::PropellerState>::SharedPtr shptr_prop_sub_;
+      rclcpp::Subscription<shipsim_msgs::msg::RudderState>::SharedPtr shptr_rudder_sub_;
 
       //Simulator
       shipsim::common::Status simstate_;
@@ -72,8 +72,8 @@ namespace shipsim
       std::string frameid_ship_;
 
       //Data
-      shipsim_msg::msg::PropellerState ctrlcmd_mainprop_;
-      shipsim_msg::msg::RudderState ctrlcmd_ctrrud_;
+      shipsim_msgs::msg::PropellerState ctrlcmd_mainprop_;
+      shipsim_msgs::msg::RudderState ctrlcmd_ctrrud_;
       geometry_msgs::msg::TransformStamped shippos_;
       geometry_msgs::msg::TwistStamped shipvel_;
 
@@ -94,8 +94,8 @@ namespace shipsim
       void publish_( void );
 
       //Subscriber Call Back
-      void callbackPropCtrl_sub_( const shipsim_msg::msg::PropellerState::SharedPtr msg );
-      void callbackRudderCtrl_sub_( const shipsim_msg::msg::RudderState::SharedPtr msg );
+      void callbackPropCtrl_sub_( const shipsim_msgs::msg::PropellerState::SharedPtr msg );
+      void callbackRudderCtrl_sub_( const shipsim_msgs::msg::RudderState::SharedPtr msg );
   };
 
 }

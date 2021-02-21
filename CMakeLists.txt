@@ -20,9 +20,8 @@ find_package( ament_cmake REQUIRED )
 find_package( rclcpp REQUIRED )
 find_package( std_msgs REQUIRED )
 find_package( geometry_msgs REQUIRED )
-#find_package( shipsim_model REQUIRED )
-#find_package( shipsim_msg REQUIRED )
-
+find_package( shipsim_model REQUIRED )
+find_package( shipsim_msgs REQUIRED )
 
 add_executable(shipsim_node
   src/shipsim/node.cc
@@ -32,6 +31,13 @@ ament_target_dependencies(shipsim_node
   rclcpp
   std_msgs
   geometry_msgs
+  shipsim_model
+  shipsim_msgs
+)
+target_include_directories(shipsim_node
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 install(TARGETS
   shipsim_node

@@ -17,9 +17,9 @@ shptr_prop_sub_( nullptr ),
 shptr_rudder_sub_( nullptr )
 {
   //Simulator Param
-  simrate_ = 100.0ms;
-  pubrate_ = 50.0ms;
-  subrate_ = 50.0ms;
+  simrate_ = 100ms;
+  pubrate_ = 50ms;
+  subrate_ = 50ms;
 
   //Model
   ptr_model_ = std::make_unique< shipsim_model::ShallowWater2019::Model<shipsim::Core> >( this );
@@ -31,16 +31,19 @@ shptr_rudder_sub_( nullptr )
   );
 
   //Subscriber
-  shptr_prop_sub_ = this -> create_subscription<shipsim_msg::msg::PropellerState>(
+  shptr_prop_sub_ = this -> create_subscription<shipsim_msgs::msg::PropellerState>(
     topicname_propctrl_sub_,
     rclcpp::QoS(1),
     std::bind( &callbackPropCtrl_sub_, this, std::placeholders::_1 )
   );
-  shptr_rudder_sub_ = this -> create_subscription<shipsim_msg::msg::RudderState>(
+  shptr_rudder_sub_ = this -> create_subscription<shipsim_msgs::msg::RudderState>(
     topicname_rudctrl_sub_,
     rclcpp::QoS(1),
     std::bind( &callbackRudderCtrl_sub_, this, std::placeholders::_1 )
   );
+
+  //TF
+  unqptr_dynamictf_shippos_br_ = std::make_unique<tf2_ros::TransformBroadcaster>();
 
   //Initalizing member variables
   shippos_.header.frame_id = frameid_world_;
@@ -144,7 +147,7 @@ void shipsim::Core::publish_( void )
       shipvel = shipvel_;
     }
 
-    dynamictf_shippos_br_.sendTransform( shippos );
+    unqptr_dynamictf_shippos_br_->sendTransform( shippos );
     shptr_shipvel_pub_ -> publish( shipvel );
     loop_rate.sleep();
   }
@@ -161,13 +164,13 @@ void shipsim::Core::subscribe_( void )
   }
 }
 
-void shipsim::Core::callbackPropCtrl_sub_( const shipsim_msg::msg::PropellerState::SharedPtr msg )
+void shipsim::Core::callbackPropCtrl_sub_( const shipsim_msgs::msg::PropellerState::SharedPtr msg )
 {
   std::lock_guard<std::mutex> lock( mtx_ );
   ctrlcmd_mainprop_ = *msg;
 }
 
-void shipsim::Core::callbackRudderCtrl_sub_( const shipsim_msg::msg::RudderState::SharedPtr msg )
+void shipsim::Core::callbackRudderCtrl_sub_( const shipsim_msgs::msg::RudderState::SharedPtr msg )
 {
   std::lock_guard<std::mutex> lock( mtx_ );
   ctrlcmd_ctrrud_ = *msg;

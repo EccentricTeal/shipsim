@@ -1,5 +1,5 @@
-#ifndef SHIPSIM_ERROR_HH
-#define SHIPSIM_ERROR_HH
+#ifndef SHIPSIM_COMMON_ERROR_HH
+#define SHIPSIM_COMMON_ERROR_HH
 
 namespace shipsim::common
 {
