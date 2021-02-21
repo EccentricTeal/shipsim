@@ -11,11 +11,16 @@ Date:   7th Feb, 2021
 
 //ROS
 #include <rclcpp/rclcpp.hpp>
+//ROS Message
+#include "shipsim_msg/msg/propeller_state.hpp"
+#include "shipsim_msg/msg/rudder_state.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
+#include "geometry_msgs/msg/twist_stamped.hpp"
+//TF
+#include "tf2_ros/transform_broadcaster.h"
+#include "tf2/LinearMath/Quaternion.h"
 //Shipsim
 #include "shipsim/common/codedef.hh"
-//Shipsim Message
-#include "shipsim_msg/msg/shipsim_prop_ctrl.hpp"
-#include "shipsim_msg/msg/shipsim_rudder_ctrl.hpp"
 //Shipsim Model
 #include "shipsim_model/ShallowWater2019/model.hh"
 #include "shipsim_model/ShallowWater2019/param.hh"
@@ -25,6 +30,7 @@ Date:   7th Feb, 2021
 #include <string>
 #include <mutex>
 #include <thread>
+#include <chrono>
 
 namespace shipsim
 {
@@ -37,16 +43,21 @@ namespace shipsim
 
     /* Public method, Accessor */
     public:
-      shipsim::common::Error run( void );
+      void run( void );
+      void stop( void );
     
     /* Private variables */
     private:
       //ROS
-      rclcpp::Subscription<shipsim_msg::msg::ShipsimPropCtrl>::SharedPtr shptr_propctrl_sub_;
+      tf2_ros::TransformBroadcaster dynamictf_shippos_br_;
+      rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr shptr_shipvel_pub_;
+      rclcpp::Subscription<shipsim_msg::msg::PropellerState>::SharedPtr shptr_prop_sub_;
+      rclcpp::Subscription<shipsim_msg::msg::RudderState>::SharedPtr shptr_rudder_sub_;
 
       //Simulator
       shipsim::common::Status simstate_;
-      unsigned int simrate_; //Hz
+      std::chrono::nanoseconds simrate_;
+      std::chrono::nanoseconds pubrate_, subrate_;
 
       //Model
       std::unique_ptr<shipsim_model::ShallowWater2019::Model<shipsim::Core>> ptr_model_;
@@ -54,23 +65,37 @@ namespace shipsim
       shipsim_model::ShallowWater2019::DynamicParam ctrlparam_;
 
       //Parameter
+      std::string topicname_shipvel_pub_;
       std::string topicname_propctrl_sub_;
+      std::string topicname_rudctrl_sub_;
+      std::string frameid_world_;
+      std::string frameid_ship_;
 
       //Data
-      shipsim_msg::msg::ShipsimPropCtrl ctrlcmd_mainprop_;
-      shipsim_msg::msg::ShipsimRudderCtrl ctrlcmd_ctrrud_;
+      shipsim_msg::msg::PropellerState ctrlcmd_mainprop_;
+      shipsim_msg::msg::RudderState ctrlcmd_ctrrud_;
+      geometry_msgs::msg::TransformStamped shippos_;
+      geometry_msgs::msg::TwistStamped shipvel_;
 
+      //Thread
+      std::unique_ptr<std::thread> unqptr_thread_sim_;
+      std::unique_ptr<std::thread> unqptr_thread_topicpub_;
+      std::unique_ptr<std::thread> unqptr_thread_topicsub_;
+    
       //Functional
       std::mutex mtx_;
+      bool enableRun_;
 
     /* Private Merhods, functions */
     private:
       //Main Loop
-      void simulatorMain_( void );
+      void simulate_( void );
+      void subscribe_( void );
+      void publish_( void );
 
       //Subscriber Call Back
-      void callbackPropCtrl_sub_( const shipsim_msg::msg::ShipsimPropCtrl::SharedPtr msg );
-      void callbackRudderCtrl_sub_( const shipsim_msg::msg::ShipsimRudderCtrl::SharedPtr msg );
+      void callbackPropCtrl_sub_( const shipsim_msg::msg::PropellerState::SharedPtr msg );
+      void callbackRudderCtrl_sub_( const shipsim_msg::msg::RudderState::SharedPtr msg );
   };
 
 }
