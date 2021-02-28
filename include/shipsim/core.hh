@@ -56,8 +56,8 @@ namespace shipsim
 
       //Simulator
       shipsim::common::Status simstate_;
-      std::chrono::nanoseconds simrate_;
-      std::chrono::nanoseconds pubrate_, subrate_;
+      std::chrono::milliseconds simrate_;
+      std::chrono::milliseconds pubrate_, subrate_;
 
       //Model
       std::unique_ptr<shipsim_model::ShallowWater2019::Model<shipsim::Core>> ptr_model_;

@@ -16,6 +16,8 @@ shptr_shipvel_pub_( nullptr ),
 shptr_prop_sub_( nullptr ),
 shptr_rudder_sub_( nullptr )
 {
+  using namespace std::literals::chrono_literals;
+
   //Simulator Param
   simrate_ = 100ms;
   pubrate_ = 50ms;
@@ -34,12 +36,12 @@ shptr_rudder_sub_( nullptr )
   shptr_prop_sub_ = this -> create_subscription<shipsim_msgs::msg::PropellerState>(
     topicname_propctrl_sub_,
     rclcpp::QoS(1),
-    std::bind( &callbackPropCtrl_sub_, this, std::placeholders::_1 )
+    std::bind( &shipsim::Core::callbackPropCtrl_sub_, this, std::placeholders::_1 )
   );
   shptr_rudder_sub_ = this -> create_subscription<shipsim_msgs::msg::RudderState>(
     topicname_rudctrl_sub_,
     rclcpp::QoS(1),
-    std::bind( &callbackRudderCtrl_sub_, this, std::placeholders::_1 )
+    std::bind( &shipsim::Core::callbackRudderCtrl_sub_, this, std::placeholders::_1 )
   );
 
   //TF
