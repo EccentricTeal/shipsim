@@ -18,17 +18,20 @@ endif()
 # find dependencies
 find_package( ament_cmake REQUIRED )
 find_package( rclcpp REQUIRED )
+find_package( tf2_ros REQUIRED )
 find_package( std_msgs REQUIRED )
 find_package( geometry_msgs REQUIRED )
 find_package( shipsim_model REQUIRED )
 find_package( shipsim_msgs REQUIRED )
 
+#Build
 add_executable(shipsim_node
   src/shipsim/node.cc
   src/shipsim/core.cc
 )
 ament_target_dependencies(shipsim_node
   rclcpp
+  tf2_ros
   std_msgs
   geometry_msgs
   shipsim_model
@@ -39,9 +42,13 @@ target_include_directories(shipsim_node
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+
+
+#Install
 install(TARGETS
   shipsim_node
   DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin
 )
 
 ament_package()

@@ -9,9 +9,6 @@ Date:   7th February, 2021
 //ShipsimCore
 shipsim::Core::Core( std::string node_name, std::string name_space ):
 rclcpp::Node( node_name, name_space ),
-unqptr_thread_sim_( nullptr ),
-unqptr_thread_topicpub_( nullptr ),
-unqptr_thread_topicsub_( nullptr ),
 shptr_shipvel_pub_( nullptr ),
 shptr_prop_sub_( nullptr ),
 shptr_rudder_sub_( nullptr )
@@ -24,7 +21,8 @@ shptr_rudder_sub_( nullptr )
   subrate_ = 50ms;
 
   //Model
-  ptr_model_ = std::make_unique< shipsim_model::ShallowWater2019::Model<shipsim::Core> >( this );
+  unqptr_model_ = std::make_unique<shipsim_model::ShallowWater2019::Model>( *this );
+
 
   //Publisher
   shptr_shipvel_pub_ = this -> create_publisher<geometry_msgs::msg::TwistStamped>(
@@ -45,7 +43,7 @@ shptr_rudder_sub_( nullptr )
   );
 
   //TF
-  unqptr_dynamictf_shippos_br_ = std::make_unique<tf2_ros::TransformBroadcaster>();
+  unqptr_dynamictf_shippos_br_ = std::make_unique<tf2_ros::TransformBroadcaster>( *this );
 
   //Initalizing member variables
   shippos_.header.frame_id = frameid_world_;
@@ -110,13 +108,13 @@ void shipsim::Core::simulate_( void )
       dparam.rudAng = ctrlcmd_ctrrud_.angle;
       dparam.rudVel = ctrlcmd_ctrrud_.vel;
     }
-    ptr_model_ -> setDynamicParam( dparam );
+    unqptr_model_->setDynamicParam( dparam );
 
     //Update
-    ptr_model_ -> update( dt.seconds() );
+    unqptr_model_->update( dt.seconds() );
 
     //Store new shipstate
-    sparam = ptr_model_ -> getShipState();
+    sparam = unqptr_model_->getShipState();
     angularQ.setRPY( sparam.pos.angular.x, sparam.pos.angular.y, sparam.pos.angular.z );
     {
       std::lock_guard<std::mutex> lock( mtx_ );

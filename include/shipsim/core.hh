@@ -30,6 +30,7 @@ Date:   7th Feb, 2021
 #include <string>
 #include <mutex>
 #include <thread>
+#include <utility>
 #include <chrono>
 
 namespace shipsim
@@ -60,7 +61,8 @@ namespace shipsim
       std::chrono::milliseconds pubrate_, subrate_;
 
       //Model
-      std::unique_ptr<shipsim_model::ShallowWater2019::Model<shipsim::Core>> ptr_model_;
+      //std::unique_ptr<shipsim_model::ShallowWater2019::Model<shipsim::Core>> ptr_model_;
+      std::unique_ptr<shipsim_model::ShallowWater2019::Model> unqptr_model_;
       shipsim_model::common::ShipStateParam shipstate_;
       shipsim_model::ShallowWater2019::DynamicParam ctrlparam_;
 
